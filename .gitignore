@@ -1,0 +1,8 @@
+#project
+./cjs
+./esm
+*.js
+*.d.ts
+
+#node
+node_modules

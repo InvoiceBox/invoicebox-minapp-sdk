@@ -1,0 +1,35 @@
+{
+  "name": "invoicebox-minapp-sdk",
+  "type": "module",
+  "license": "ISC",
+  "version": "1.0.0",
+  "scripts": {
+    "clean": "rm -rf ./{cjs,esm}/!(package.json)",
+    "build": "npm run clean && npm run build:esm && npm run build:cjs",
+    "build:esm": "tsc --project tsconfig.esm.json",
+    "build:cjs": "tsc --project tsconfig.cjs.json"
+  },
+  "description": "Package to communicate with Invoicebox payment page",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:InvoiceBox/invoicebox-minapp-sdk.git"
+  },
+  "engines": {
+    "node": "^16.17.1"
+  },
+  "exports": {
+    "import": "./esm/index.js",
+    "require": "./cjs/index.js"
+  },
+  "files": [
+    "**/package.json",
+    "**/index.js",
+    "**/*.d.ts"
+  ],
+  "types": "./cjs/index.d.ts",
+  "main": "./cjs/index.js",
+  "module": "./esm/index.js",
+  "devDependencies": {
+    "typescript": "^5.1.6"
+  }
+}
