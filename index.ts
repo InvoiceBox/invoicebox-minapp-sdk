@@ -1,9 +1,9 @@
-type TTest = {
-  a: number
-}
+export type TTest = {
+  a: number;
+};
 
 const a: TTest = {
-  a:1 
-}
+  a: 1,
+};
 
-console.log(a)
+console.log(a);
