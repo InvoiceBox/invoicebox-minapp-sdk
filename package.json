@@ -1,5 +1,5 @@
 {
-  "name": "invoicebox-minapp-sdk",
+  "name": "@invoicebox/minapp-sdk",
   "type": "module",
   "license": "ISC",
   "version": "1.0.0",
