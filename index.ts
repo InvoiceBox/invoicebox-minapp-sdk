@@ -20,6 +20,12 @@ type TErrorMessageTo = {
     data: string | null;
 };
 
+type TLinkMessageTo = {
+    id: string;
+    action: 'link';
+    data: string;
+};
+
 type TInitMessageFrom = {
     id: string;
     action: 'init';
@@ -31,13 +37,7 @@ type TInitMessageFrom = {
     };
 };
 
-type TLinkMessageTo = {
-    id: string;
-    action: 'link';
-    data: string;
-};
-
-export class Child {
+export class InvoiceboxMinapp {
     private id: string;
 
     private messageFromEventListener = this.messageFrom.bind(this);
