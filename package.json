@@ -30,6 +30,7 @@
   "main": "./cjs/index.js",
   "module": "./esm/index.js",
   "devDependencies": {
+    "prettier": "^3.2.4",
     "typescript": "^5.1.6"
   }
 }
