@@ -1,8 +1,6 @@
 #project
-./cjs
-./esm
-*.js
-*.d.ts
+cjs
+esm
 
 #node
 node_modules

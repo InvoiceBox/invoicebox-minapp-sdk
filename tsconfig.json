@@ -11,15 +11,11 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "sourceMap": false,
-    "noImplicitAny": true,
-    "downlevelIteration": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "downlevelIteration": true
   },
   "exclude": [
     "**/node_modules/*",
     "**/cjs/*",
-    "**/esm/*",
-    "**/*.d.ts"
+    "**/esm/*"
   ]
 }
