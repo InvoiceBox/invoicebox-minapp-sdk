@@ -31,9 +31,9 @@ type TInitMessageFrom = {
     action: 'init';
     data: {
         orderContainerId: string;
-        email: string;
-        name: string;
-        phone: string;
+        userEmail: string;
+        userName: string;
+        userPhone: string;
     };
 };
 
