@@ -2,7 +2,7 @@
   "name": "@invoicebox/minapp-sdk",
   "type": "module",
   "license": "ISC",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "scripts": {
     "clean": "./clean.sh",
     "build": "npm run clean && npm run build:esm && npm run build:cjs",
