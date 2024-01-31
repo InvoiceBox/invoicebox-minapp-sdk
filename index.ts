@@ -12,6 +12,7 @@ type THeightMessageTo = {
 type TDoneMessageTo = {
     id: string;
     action: 'done';
+    data: string;
 };
 
 type TErrorMessageTo = {
@@ -30,7 +31,7 @@ type TInitMessageFrom = {
     id: string;
     action: 'init';
     data: {
-        orderContainerId: string;
+        orderContainerId?: string;
         userEmail: string;
         userName: string;
         userPhone: string;
@@ -94,8 +95,8 @@ export class InvoiceboxMinapp {
         });
     }
 
-    onDone() {
-        this.messageTo({ id: this.id, action: 'done' });
+    onDone(paymentUrl: string) {
+        this.messageTo({ id: this.id, action: 'done', data: paymentUrl });
     }
 
     onLink(href: string) {
