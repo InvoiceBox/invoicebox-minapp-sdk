@@ -25,6 +25,7 @@
   "files": [
     "**/package.json",
     "**/index.js",
+    "**/index.min.js",
     "**/*.d.ts"
   ],
   "types": "./cjs/index.d.ts",
