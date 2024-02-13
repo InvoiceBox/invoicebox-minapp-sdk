@@ -51,15 +51,8 @@ export class InvoiceboxMinapp {
     constructor() {
         const url = new URL(window.location.href);
         this.id = url.searchParams.get('id') as string;
-    }
-
-    connect() {
         window.addEventListener('message', this.messageFromEventListener);
         this.messageTo({ id: this.id, action: 'init' });
-    }
-
-    disconnect() {
-        window.removeEventListener('message', this.messageFromEventListener);
     }
 
     private messageFrom(originalEvent: Event) {
