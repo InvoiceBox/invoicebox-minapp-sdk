@@ -27,6 +27,12 @@ type TLinkMessageTo = {
     data: string;
 };
 
+type TUnavailableMessageTo = {
+    id: string;
+    action: 'unavailable';
+    data: null;
+};
+
 type TOrderMinapp = {
     orderContainerId?: never;
     minappType: 'order';
@@ -81,7 +87,13 @@ export class InvoiceboxMinapp {
     }
 
     private messageTo(
-        message: TInitMessageTo | THeightMessageTo | TDoneMessageTo | TLinkMessageTo | TErrorMessageTo,
+        message:
+            | TInitMessageTo
+            | THeightMessageTo
+            | TDoneMessageTo
+            | TLinkMessageTo
+            | TErrorMessageTo
+            | TUnavailableMessageTo,
     ) {
         window.parent.postMessage(message, '*');
     }
@@ -108,6 +120,10 @@ export class InvoiceboxMinapp {
 
     onError(message?: string) {
         this.messageTo({ id: this.id, action: 'error', data: message || null });
+    }
+
+    onUnavailable() {
+        this.messageTo({ id: this.id, action: 'unavailable', data: null });
     }
 
     getParentOrigin() {
