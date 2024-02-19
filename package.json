@@ -4,11 +4,7 @@
   "license": "Apache License 2.0",
   "version": "4.0.0-alpha.1",
   "scripts": {
-    "clean": "./clean.sh",
-    "build": "npm run clean && npm run build:esm && npm run build:cjs && npm run minify",
-    "build:esm": "tsc --project tsconfig.esm.json",
-    "build:cjs": "tsc --project tsconfig.cjs.json",
-    "minify": "minify cjs/index.js > cjs/index.min.js",
+    "build": "./build.sh",
     "release": "git checkout develop && npm version $VERSION && git push && git push --tags && git checkout main && git merge develop && git push && npm run build && npm publish && git checkout develop"
   },
   "description": "Package to communicate with Invoicebox payment page",
