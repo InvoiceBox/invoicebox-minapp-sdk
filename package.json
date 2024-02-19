@@ -9,7 +9,7 @@
     "build:esm": "tsc --project tsconfig.esm.json",
     "build:cjs": "tsc --project tsconfig.cjs.json",
     "minify": "minify cjs/index.js > cjs/index.min.js",
-    "release": "git checkout main && git merge develop && git push && npm run build && npm publish && git checkout develop"
+    "release": "git checkout develop && npm version $VERSION && git push && git push --tags && git checkout main && git merge develop && git push && npm run build && npm publish && git checkout develop"
   },
   "description": "Package to communicate with Invoicebox payment page",
   "repository": {
