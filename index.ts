@@ -27,16 +27,25 @@ type TLinkMessageTo = {
     data: string;
 };
 
+type TOrderMinapp = {
+    orderContainerId?: never;
+    minappType: 'order';
+};
+
+type TSuborderMinapp = {
+    orderContainerId: string;
+    minappType: 'suborder';
+};
+
 type TInitMessageFrom = {
     id: string;
     action: 'init';
     data: {
-        orderContainerId?: string;
         shopId?: number;
         userEmail: string;
         userName: string;
         userPhone: string;
-    };
+    } & (TOrderMinapp | TSuborderMinapp);
 };
 
 export class InvoiceboxMinapp {
