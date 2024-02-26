@@ -47,26 +47,29 @@ type TInitMessageFrom = {
     id: string;
     action: 'init';
     data: {
-        shopId?: number;
-        userEmail: string;
-        userName: string;
-        userPhone: string;
-    } & (TOrderMinapp | TSuborderMinapp);
+        public: {
+            shopId?: number;
+            userEmail: string;
+            userName: string;
+            userPhone: string;
+        } & (TOrderMinapp | TSuborderMinapp);
+        private: {
+            metaData: unknown[];
+        };
+    };
 };
 
 export class InvoiceboxMinapp {
     private id: string;
 
-    private messageFromEventListener = this.messageFrom.bind(this);
-
-    private initialDataPromiseResolvers: ((initialData: TInitMessageFrom['data']) => void)[] = [];
+    private initialDataPromiseResolvers: ((initialData: TInitMessageFrom['data']['public']) => void)[] = [];
 
     private initailData: TInitMessageFrom['data'] | null = null;
 
     constructor() {
         const url = new URL(window.location.href);
         this.id = url.searchParams.get('id') as string;
-        window.addEventListener('message', this.messageFromEventListener);
+        window.addEventListener('message', this.messageFrom.bind(this));
         this.messageTo({ id: this.id, action: 'init' });
     }
 
@@ -77,7 +80,7 @@ export class InvoiceboxMinapp {
             if (data.id !== this.id) return;
 
             if (data.action === 'init') {
-                this.initialDataPromiseResolvers.forEach((resolver) => resolver(data.data));
+                this.initialDataPromiseResolvers.forEach((resolver) => resolver(data.data.public));
                 this.initialDataPromiseResolvers = [];
                 this.initailData = data.data;
             }
@@ -102,8 +105,8 @@ export class InvoiceboxMinapp {
         this.messageTo({ id: this.id, action: 'height', data: height });
     }
 
-    getInitialData(): Promise<TInitMessageFrom['data']> {
-        if (this.initailData) return Promise.resolve(this.initailData);
+    getInitialData(): Promise<TInitMessageFrom['data']['public']> {
+        if (this.initailData) return Promise.resolve(this.initailData.public);
 
         return new Promise((resolve) => {
             this.initialDataPromiseResolvers.push(resolve);
