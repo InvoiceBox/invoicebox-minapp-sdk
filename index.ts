@@ -1,3 +1,5 @@
+import isEqual from 'lodash.isequal';
+
 type TInitMessageTo = {
     id: string;
     action: 'init';
@@ -131,5 +133,34 @@ export class InvoiceboxMinapp {
 
     getParentOrigin() {
         return window.parent.location.origin;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    private matchSomeProperty(struct: unknown, targetKey: string, targetValues: unknown[]) {
+        if (typeof struct !== 'object' || struct === null) return false;
+
+        for (const sourceKey in struct) {
+            const sourceValue = struct[sourceKey as keyof typeof struct] as unknown;
+
+            const isMatch =
+                targetKey === sourceKey &&
+                targetValues.some((targetValue) => isEqual(targetValue, sourceValue));
+
+            if (isMatch) return true;
+
+            const isDeepMatch = this.matchSomeProperty(sourceValue, targetKey, targetValues);
+
+            if (isDeepMatch) return true;
+        }
+
+        return false;
+    }
+
+    matchSomeMetaData(targetKey: string, targetValues: unknown[]): boolean {
+        if (!this.initailData) return false;
+
+        const { metaData } = this.initailData.private;
+
+        return this.matchSomeProperty(metaData, targetKey, targetValues);
     }
 }
