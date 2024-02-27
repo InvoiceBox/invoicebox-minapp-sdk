@@ -135,7 +135,6 @@ export class InvoiceboxMinapp {
         return window.parent.location.origin;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private matchSomeProperty(struct: unknown, targetKey: string, targetValues: unknown[]) {
         if (typeof struct !== 'object' || struct === null) return false;
 
