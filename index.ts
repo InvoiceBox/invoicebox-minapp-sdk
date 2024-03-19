@@ -102,9 +102,9 @@ export class InvoiceboxMinapp {
     ) {
         window.parent.postMessage(message, '*');
         const nativeWindow = window as unknown as {
-            ReactNativeWebView?: { postMessage: (message: unknown) => void };
+            ReactNativeWebView?: { postMessage: (message: string) => void };
         };
-        nativeWindow.ReactNativeWebView?.postMessage(message);
+        nativeWindow.ReactNativeWebView?.postMessage(JSON.stringify(message));
     }
 
     onHeightChange(height: number) {
