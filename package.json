@@ -2,7 +2,7 @@
   "name": "@invoicebox/minapp-sdk",
   "type": "module",
   "license": "Apache License 2.0",
-  "version": "4.0.0-alpha.4",
+  "version": "4.0.0-alpha.5",
   "scripts": {
     "build": "./build.sh",
     "release": "git checkout develop && npm version $VERSION && git push && git push --tags && git checkout main && git merge develop && git push && npm run build && npm publish && git checkout develop"
