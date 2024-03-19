@@ -35,12 +35,6 @@ type TUnavailableMessageTo = {
     data: null;
 };
 
-type TLogMessageTo = {
-    id: string;
-    action: 'log';
-    data: unknown;
-};
-
 type TOrderMinapp = {
     orderContainerId?: never;
     minappType: 'order';
@@ -92,15 +86,6 @@ export class InvoiceboxMinapp {
                 this.initialDataPromiseResolvers = [];
                 this.initailData = data.data;
             }
-
-            this.messageTo({
-                id: this.id,
-                action: 'log',
-                data: {
-                    description: 'I am the miniapp, I did receive message from parent',
-                    message: data,
-                },
-            });
         } catch (err) {
             // do nothing
         }
@@ -113,8 +98,7 @@ export class InvoiceboxMinapp {
             | TDoneMessageTo
             | TLinkMessageTo
             | TErrorMessageTo
-            | TUnavailableMessageTo
-            | TLogMessageTo,
+            | TUnavailableMessageTo,
     ) {
         const parentWindow = window as unknown as {
             ReactNativeWebView?: { postMessage: (message: string) => void };
