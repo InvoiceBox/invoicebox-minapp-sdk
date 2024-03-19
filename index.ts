@@ -116,11 +116,17 @@ export class InvoiceboxMinapp {
             | TUnavailableMessageTo
             | TLogMessageTo,
     ) {
-        window.parent.postMessage(message, '*');
-        const nativeWindow = window as unknown as {
+        const parentWindow = window as unknown as {
             ReactNativeWebView?: { postMessage: (message: string) => void };
+            parent: { postMessage: (message: unknown, options: '*') => void };
         };
-        nativeWindow.ReactNativeWebView?.postMessage(JSON.stringify(message));
+
+        if (parentWindow.ReactNativeWebView) {
+            parentWindow.ReactNativeWebView.postMessage(JSON.stringify(message));
+            return;
+        }
+
+        parentWindow.parent.postMessage(message, '*');
     }
 
     onHeightChange(height: number) {
