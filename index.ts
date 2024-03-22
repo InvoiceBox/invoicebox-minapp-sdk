@@ -110,6 +110,8 @@ export class InvoiceboxMinapp {
             return;
         }
 
+        if (parentWindow.parent === window) return;
+
         parentWindow.parent.postMessage(message, '*');
     }
 
