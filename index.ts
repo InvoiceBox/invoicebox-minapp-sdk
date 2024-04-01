@@ -64,7 +64,7 @@ type TInitMessageFrom = {
 export class InvoiceboxMinapp {
     private id: string;
 
-    private initialDataPromiseResolvers: ((initialData: TInitMessageFrom['data']['public']) => void)[] = [];
+    private initialDataPromiseResolvers: ((initialData: TInitMessageFrom['data']) => void)[] = [];
 
     private initailData: TInitMessageFrom['data'] | null = null;
 
@@ -82,7 +82,7 @@ export class InvoiceboxMinapp {
             if (data.id !== this.id) return;
 
             if (data.action === 'init') {
-                this.initialDataPromiseResolvers.forEach((resolver) => resolver(data.data.public));
+                this.initialDataPromiseResolvers.forEach((resolver) => resolver(data.data));
                 this.initialDataPromiseResolvers = [];
                 this.initailData = data.data;
             }
@@ -119,12 +119,16 @@ export class InvoiceboxMinapp {
         this.messageTo({ id: this.id, action: 'height', data: height });
     }
 
-    getInitialData(): Promise<TInitMessageFrom['data']['public']> {
-        if (this.initailData) return Promise.resolve(this.initailData.public);
+    private getAllInitialData(): Promise<TInitMessageFrom['data']> {
+        if (this.initailData) return Promise.resolve(this.initailData);
 
         return new Promise((resolve) => {
             this.initialDataPromiseResolvers.push(resolve);
         });
+    }
+
+    getInitialData(): Promise<TInitMessageFrom['data']['public']> {
+        return this.getAllInitialData().then((initialData) => initialData.public);
     }
 
     onDone(paymentUrl: string) {
@@ -167,11 +171,10 @@ export class InvoiceboxMinapp {
         return false;
     }
 
-    matchSomeMetaData(targetKey: string, targetValues: unknown[]): boolean {
-        if (!this.initailData) return false;
-
-        const { metaData } = this.initailData.private;
-
-        return this.matchSomeProperty(metaData, targetKey, targetValues);
+    matchSomeMetaData(targetKey: string, targetValues: unknown[]): Promise<boolean> {
+        return this.getAllInitialData().then((initialData) => {
+            const { metaData } = initialData.private;
+            return this.matchSomeProperty(metaData, targetKey, targetValues);
+        });
     }
 }
