@@ -143,8 +143,6 @@ class InvoiceboxMinapp {
     }
 
     private getAllInitialData(): Promise<TInitMessageFrom['data']> {
-        if (!this.connected) return Promise.reject(new Error('not connected'));
-
         if (this.initailData) return Promise.resolve(this.initailData);
 
         return new Promise((resolve) => {
