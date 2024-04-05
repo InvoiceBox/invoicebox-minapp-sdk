@@ -65,6 +65,7 @@ class InvoiceboxMinapp {
     private id: string;
 
     private initialDataPromiseResolvers: ((initialData: TInitMessageFrom['data']) => void)[] = [];
+    private initialDataPromiseRejectors: ((error: Error) => void)[] = [];
 
     private initailData: TInitMessageFrom['data'] | null = null;
 
@@ -89,6 +90,8 @@ class InvoiceboxMinapp {
         this.connected = false;
         this.initailData = null;
         this.initialDataPromiseResolvers = [];
+        this.initialDataPromiseRejectors.forEach((rejector) => rejector(new Error('Disconnected')));
+        this.initialDataPromiseRejectors = [];
         window.removeEventListener('message', this.messageFromBinded);
     }
 
@@ -105,6 +108,7 @@ class InvoiceboxMinapp {
             if (data.action === 'init') {
                 this.initialDataPromiseResolvers.forEach((resolver) => resolver(data.data));
                 this.initialDataPromiseResolvers = [];
+                this.initialDataPromiseRejectors = [];
                 this.initailData = data.data;
             }
         } catch (err) {
@@ -145,8 +149,9 @@ class InvoiceboxMinapp {
     private getAllInitialData(): Promise<TInitMessageFrom['data']> {
         if (this.initailData) return Promise.resolve(this.initailData);
 
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             this.initialDataPromiseResolvers.push(resolve);
+            this.initialDataPromiseRejectors.push(reject);
         });
     }
 
