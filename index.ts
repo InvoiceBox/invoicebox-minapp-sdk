@@ -95,8 +95,6 @@ class InvoiceboxMinapp {
     }
 
     private messageFrom(originalEvent: Event) {
-        if (!this.connected) return;
-
         const event = originalEvent as MessageEvent;
         try {
             const data = event.data as TInitMessageFrom;
