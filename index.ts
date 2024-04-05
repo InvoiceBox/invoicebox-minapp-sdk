@@ -87,6 +87,8 @@ class InvoiceboxMinapp {
     disconnect() {
         if (!this.connected) throw new Error('Already disconnected');
         this.connected = false;
+        this.initailData = null;
+        this.initialDataPromiseResolvers = [];
         window.removeEventListener('message', this.messageFromBinded);
     }
 
