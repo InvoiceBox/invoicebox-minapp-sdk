@@ -90,6 +90,10 @@ class InvoiceboxMinapp {
         window.removeEventListener('message', this.messageFromBinded);
     }
 
+    isConnected() {
+        return this.connected;
+    }
+
     private messageFrom(originalEvent: Event) {
         if (!this.connected) return;
 
