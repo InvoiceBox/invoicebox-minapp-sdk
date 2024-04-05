@@ -61,18 +61,42 @@ type TInitMessageFrom = {
     };
 };
 
-export class InvoiceboxMinapp {
+class InvoiceboxMinapp {
     private id: string;
 
     private initialDataPromiseResolvers: ((initialData: TInitMessageFrom['data']) => void)[] = [];
+    private initialDataPromiseRejectors: ((error: Error) => void)[] = [];
 
     private initailData: TInitMessageFrom['data'] | null = null;
+
+    private messageFromBinded = this.messageFrom.bind(this);
+
+    private connected = false;
 
     constructor() {
         const url = new URL(window.location.href);
         this.id = url.searchParams.get('id') as string;
-        window.addEventListener('message', this.messageFrom.bind(this));
+    }
+
+    connect() {
+        if (this.connected) throw new Error('Already connected');
+        this.connected = true;
+        window.addEventListener('message', this.messageFromBinded);
         this.messageTo({ id: this.id, action: 'init' });
+    }
+
+    disconnect() {
+        if (!this.connected) throw new Error('Already disconnected');
+        this.connected = false;
+        this.initailData = null;
+        this.initialDataPromiseResolvers = [];
+        this.initialDataPromiseRejectors.forEach((rejector) => rejector(new Error('Disconnected')));
+        this.initialDataPromiseRejectors = [];
+        window.removeEventListener('message', this.messageFromBinded);
+    }
+
+    isConnected() {
+        return this.connected;
     }
 
     private messageFrom(originalEvent: Event) {
@@ -84,6 +108,7 @@ export class InvoiceboxMinapp {
             if (data.action === 'init') {
                 this.initialDataPromiseResolvers.forEach((resolver) => resolver(data.data));
                 this.initialDataPromiseResolvers = [];
+                this.initialDataPromiseRejectors = [];
                 this.initailData = data.data;
             }
         } catch (err) {
@@ -100,6 +125,8 @@ export class InvoiceboxMinapp {
             | TErrorMessageTo
             | TUnavailableMessageTo,
     ) {
+        if (!this.connected) throw new Error('not connected');
+
         const parentWindow = window as unknown as {
             ReactNativeWebView?: { postMessage: (message: string) => void };
             parent: { postMessage: (message: unknown, options: '*') => void };
@@ -122,8 +149,9 @@ export class InvoiceboxMinapp {
     private getAllInitialData(): Promise<TInitMessageFrom['data']> {
         if (this.initailData) return Promise.resolve(this.initailData);
 
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             this.initialDataPromiseResolvers.push(resolve);
+            this.initialDataPromiseRejectors.push(reject);
         });
     }
 
@@ -178,3 +206,5 @@ export class InvoiceboxMinapp {
         });
     }
 }
+
+export const invoiceboxMinapp = new InvoiceboxMinapp();
