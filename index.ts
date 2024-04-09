@@ -38,11 +38,13 @@ type TUnavailableMessageTo = {
 type TOrderMinapp = {
     orderContainerId?: never;
     minappType: 'order';
+    isHeightByParent: true;
 };
 
 type TSuborderMinapp = {
     orderContainerId: string;
     minappType: 'suborder';
+    isHeightByParent: false;
 };
 
 type TInitMessageFrom = {
