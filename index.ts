@@ -35,14 +35,16 @@ type TUnavailableMessageTo = {
     data: null;
 };
 
-type TOrderMinapp = {
+type TAppSettings = {
     orderContainerId?: never;
     minappType: 'order';
+    isHeightByParent: true;
 };
 
-type TSuborderMinapp = {
+type TWebSettings = {
     orderContainerId: string;
     minappType: 'suborder';
+    isHeightByParent: false;
 };
 
 type TInitMessageFrom = {
@@ -50,11 +52,11 @@ type TInitMessageFrom = {
     action: 'init';
     data: {
         public: {
-            shopId?: number;
+            shopId: number;
             userEmail: string;
             userName: string;
             userPhone: string;
-        } & (TOrderMinapp | TSuborderMinapp);
+        } & (TWebSettings | TAppSettings);
         private: {
             metaData: unknown[];
         };
