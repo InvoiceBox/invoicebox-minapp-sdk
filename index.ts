@@ -52,7 +52,7 @@ type TInitMessageFrom = {
     action: 'init';
     data: {
         public: {
-            shopId?: number;
+            shopId: number;
             userEmail: string;
             userName: string;
             userPhone: string;
