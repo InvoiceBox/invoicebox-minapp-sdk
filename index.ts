@@ -38,13 +38,13 @@ type TUnavailableMessageTo = {
 type TAppSettings = {
     orderContainerId?: never;
     minappType: 'order';
-    isHeightByParent: true;
+    fullHeight: true;
 };
 
 type TWebSettings = {
     orderContainerId: string;
     minappType: 'suborder';
-    isHeightByParent: false;
+    fullHeight: false;
 };
 
 type TInitMessageFrom = {
