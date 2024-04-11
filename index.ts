@@ -56,6 +56,7 @@ type TInitMessageFrom = {
             userEmail: string;
             userName: string;
             userPhone: string;
+            locale: string;
         } & (TWebSettings | TAppSettings);
         private: {
             metaData: unknown[];
