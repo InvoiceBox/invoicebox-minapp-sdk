@@ -1,4 +1,5 @@
 import isEqual from 'lodash.isequal';
+import uniqWith from 'lodash.uniqwith';
 
 type TInitMessageTo = {
     id: string;
@@ -202,10 +203,35 @@ class InvoiceboxMinapp {
         return false;
     }
 
-    matchSomeMetaData(targetKey: string, targetValues: unknown[]): Promise<boolean> {
+    matchMetaDataValues(targetKey: string, targetValues: unknown[]): Promise<boolean> {
         return this.getAllInitialData().then((initialData) => {
             const { metaData } = initialData.private;
             return this.matchSomeProperty(metaData, targetKey, targetValues);
+        });
+    }
+
+    private getProperties(struct: unknown, targetKey: string, sourceValues: unknown[]): unknown[] {
+        if (typeof struct !== 'object' || struct === null) return sourceValues;
+
+        for (const sourceKey in struct) {
+            const sourceValue = struct[sourceKey as keyof typeof struct] as unknown;
+
+            const isMatch = targetKey === sourceKey;
+            if (isMatch) sourceValues.push(sourceValue);
+
+            this.getProperties(sourceValue, targetKey, sourceValues);
+        }
+
+        return sourceValues;
+    }
+
+    getMetaDataValues(targetKey: string | string[]): Promise<unknown[]> {
+        return this.getAllInitialData().then((initialData) => {
+            const { metaData } = initialData.private;
+            const targetKeys = Array.isArray(targetKey) ? targetKey : [targetKey];
+            const sourceValues: unknown[] = [];
+            targetKeys.forEach((item) => this.getProperties(metaData, item, sourceValues));
+            return uniqWith(sourceValues, isEqual);
         });
     }
 }
