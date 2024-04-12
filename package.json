@@ -29,6 +29,7 @@
   "module": "./esm/index.js",
   "devDependencies": {
     "@types/lodash.isequal": "^4.5.8",
+    "@types/lodash.uniqwith": "^4.5.9",
     "@typescript-eslint/eslint-plugin": "^6.19.0",
     "@typescript-eslint/parser": "^6.19.0",
     "eslint": "^8.56.0",
@@ -39,6 +40,7 @@
     "uglify-js": "^3.17.4"
   },
   "dependencies": {
-    "lodash.isequal": "^4.5.0"
+    "lodash.isequal": "^4.5.0",
+    "lodash.uniqwith": "^4.5.0"
   }
 }
