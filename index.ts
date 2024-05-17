@@ -1,54 +1,54 @@
 import isEqual from 'lodash.isequal';
 import uniqWith from 'lodash.uniqwith';
 
-type TInitMessageTo = {
+export type TInitMessageTo = {
     id: string;
     action: 'init';
 };
 
-type THeightMessageTo = {
+export type THeightMessageTo = {
     id: string;
     action: 'height';
     data: number;
 };
 
-type TDoneMessageTo = {
+export type TDoneMessageTo = {
     id: string;
     action: 'done';
     data: string;
 };
 
-type TErrorMessageTo = {
+export type TErrorMessageTo = {
     id: string;
     action: 'error';
     data: string | null;
 };
 
-type TLinkMessageTo = {
+export type TLinkMessageTo = {
     id: string;
     action: 'link';
     data: string;
 };
 
-type TUnavailableMessageTo = {
+export type TUnavailableMessageTo = {
     id: string;
     action: 'unavailable';
     data: null;
 };
 
-type TAppSettings = {
+export type TAppSettings = {
     orderContainerId?: never;
     minappType: 'order';
     fullHeight: true;
 };
 
-type TWebSettings = {
+export type TWebSettings = {
     orderContainerId: string;
     minappType: 'suborder';
     fullHeight: false;
 };
 
-type TInitMessageFrom = {
+export type TInitMessageFrom = {
     id: string;
     action: 'init';
     data: {
