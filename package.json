@@ -12,7 +12,7 @@
     "url": "git@github.com:InvoiceBox/invoicebox-minapp-sdk.git"
   },
   "engines": {
-    "node": "^16.17.1"
+    "node": ">=16.0.0"
   },
   "exports": {
     "import": "./esm/index.js",
