@@ -15,7 +15,7 @@ export type THeightMessageTo = {
 export type TDoneMessageTo = {
     id: string;
     action: 'done';
-    data: string;
+    data: string | null;
 };
 
 export type TErrorMessageTo = {
