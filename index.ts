@@ -36,6 +36,14 @@ export type TUnavailableMessageTo = {
     data: null;
 };
 
+export type TCheckoutMessageTo = {
+    id: string;
+    action: 'checkout';
+    data: string;
+};
+
+export type TPaymentStatus = 'paid' | 'canceled' | 'pending';
+
 export type TAppSettings = {
     orderContainerId?: never;
     minappType: 'order';
@@ -65,6 +73,12 @@ export type TInitMessageFrom = {
     };
 };
 
+export type TPaymentResultMessageFrom = {
+    id: string;
+    action: 'paymentResult';
+    data: TPaymentStatus;
+};
+
 class InvoiceboxMinapp {
     private id: string;
 
@@ -76,6 +90,8 @@ class InvoiceboxMinapp {
     private messageFromBinded = this.messageFrom.bind(this);
 
     private connected = false;
+
+    private paymentResultHandler?: (status: TPaymentStatus) => void;
 
     constructor() {
         const url = new URL(window.location.href);
@@ -106,7 +122,8 @@ class InvoiceboxMinapp {
     private messageFrom(originalEvent: Event) {
         const event = originalEvent as MessageEvent;
         try {
-            const data = event.data as TInitMessageFrom;
+            const data = event.data as TInitMessageFrom | TPaymentResultMessageFrom;
+
             if (data.id !== this.id) return;
 
             if (data.action === 'init') {
@@ -114,6 +131,10 @@ class InvoiceboxMinapp {
                 this.initialDataPromiseResolvers = [];
                 this.initialDataPromiseRejectors = [];
                 this.initailData = data.data;
+            }
+
+            if (data.action === 'paymentResult' && this.paymentResultHandler) {
+                this.paymentResultHandler(data.data);
             }
         } catch (err) {
             // do nothing
@@ -127,7 +148,8 @@ class InvoiceboxMinapp {
             | TDoneMessageTo
             | TLinkMessageTo
             | TErrorMessageTo
-            | TUnavailableMessageTo,
+            | TUnavailableMessageTo
+            | TCheckoutMessageTo,
     ) {
         if (!this.connected) throw new Error('not connected');
 
@@ -165,6 +187,14 @@ class InvoiceboxMinapp {
 
     onDone(paymentUrl: string) {
         this.messageTo({ id: this.id, action: 'done', data: paymentUrl });
+    }
+
+    onCheckout(paymentUrl: string) {
+        this.messageTo({ id: this.id, action: 'checkout', data: paymentUrl });
+    }
+
+    onPaymentResult(handler: (status: TPaymentStatus) => void) {
+        this.paymentResultHandler = handler;
     }
 
     onLink(href: string) {
