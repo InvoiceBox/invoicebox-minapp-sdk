@@ -3,3 +3,6 @@ esm
 
 #node
 node_modules
+
+#other
+.idea
