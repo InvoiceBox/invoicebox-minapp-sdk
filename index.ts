@@ -94,6 +94,12 @@ class InvoiceboxMinapp {
     private paymentResultHandler?: (status: TPaymentStatus) => void;
 
     constructor() {
+        if (typeof window === 'undefined') {
+            throw new Error(
+                'InvoiceboxMinapp initialization failed: "window" is undefined. A browser environment is required.'
+            );
+        }
+
         const url = new URL(window.location.href);
         this.id = url.searchParams.get('id') as string;
     }
