@@ -85,15 +85,21 @@ class InvoiceboxMinapp {
     private initialDataPromiseResolvers: ((initialData: TInitMessageFrom['data']) => void)[] = [];
     private initialDataPromiseRejectors: ((error: Error) => void)[] = [];
 
-    private initailData: TInitMessageFrom['data'] | null = null;
+    private initialData: TInitMessageFrom['data'] | null = null;
 
-    private messageFromBinded = this.messageFrom.bind(this);
+    private messageFromBound = this.messageFrom.bind(this);
 
     private connected = false;
 
     private paymentResultHandler?: (status: TPaymentStatus) => void;
 
     constructor() {
+        if (typeof window === 'undefined') {
+            throw new Error(
+                'InvoiceboxMinapp initialization failed: "window" is undefined. A browser environment is required.'
+            );
+        }
+
         const url = new URL(window.location.href);
         this.id = url.searchParams.get('id') as string;
     }
@@ -101,18 +107,18 @@ class InvoiceboxMinapp {
     connect() {
         if (this.connected) throw new Error('Already connected');
         this.connected = true;
-        window.addEventListener('message', this.messageFromBinded);
+        window.addEventListener('message', this.messageFromBound);
         this.messageTo({ id: this.id, action: 'init' });
     }
 
     disconnect() {
         if (!this.connected) throw new Error('Already disconnected');
         this.connected = false;
-        this.initailData = null;
+        this.initialData = null;
         this.initialDataPromiseResolvers = [];
         this.initialDataPromiseRejectors.forEach((rejector) => rejector(new Error('Disconnected')));
         this.initialDataPromiseRejectors = [];
-        window.removeEventListener('message', this.messageFromBinded);
+        window.removeEventListener('message', this.messageFromBound);
     }
 
     isConnected() {
@@ -130,7 +136,7 @@ class InvoiceboxMinapp {
                 this.initialDataPromiseResolvers.forEach((resolver) => resolver(data.data));
                 this.initialDataPromiseResolvers = [];
                 this.initialDataPromiseRejectors = [];
-                this.initailData = data.data;
+                this.initialData = data.data;
             }
 
             if (data.action === 'paymentResult' && this.paymentResultHandler) {
@@ -173,7 +179,7 @@ class InvoiceboxMinapp {
     }
 
     private getAllInitialData(): Promise<TInitMessageFrom['data']> {
-        if (this.initailData) return Promise.resolve(this.initailData);
+        if (this.initialData) return Promise.resolve(this.initialData);
 
         return new Promise((resolve, reject) => {
             this.initialDataPromiseResolvers.push(resolve);
