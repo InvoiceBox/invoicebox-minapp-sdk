@@ -1,6 +1,10 @@
 #project
 esm
 
+#compiled
+cjs/*
+!cjs/package.json
+
 #node
 node_modules
 
