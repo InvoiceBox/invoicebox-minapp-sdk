@@ -56,9 +56,6 @@ bump_version() {
   return 0
 }
 
-# Переключиться на ветку develop
-git checkout develop
-
 # Очистка
 echo "Очистка..."
 find ./cjs -mindepth 1 ! -regex '\(^\.\/cjs\/package\.json$\)\|\(^\.\/cjs\/\.gitignore$\)' -delete
