@@ -9,7 +9,7 @@
   "description": "Package to communicate with Invoicebox payment page",
   "repository": {
     "type": "git",
-    "url": "git@github.com:InvoiceBox/invoicebox-minapp-sdk.git"
+    "url": "git+ssh://git@github.com/InvoiceBox/invoicebox-minapp-sdk.git"
   },
   "engines": {
     "node": ">=16.0.0"
