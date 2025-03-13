@@ -2,7 +2,7 @@
   "name": "@invoicebox/minapp-sdk",
   "type": "module",
   "license": "Apache License 2.0",
-  "version": "3.0.1",
+  "version": "5.0.0",
   "scripts": {
     "release": "./release.sh"
   },
