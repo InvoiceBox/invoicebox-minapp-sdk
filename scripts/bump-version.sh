@@ -4,7 +4,7 @@ set -e  # Stop script on any error
 # Function to determine and suggest a new version
 bump_version() {
   # Get current version from package.json
-  CURRENT_VERSION=$(node -p "require('./package.json').version")
+  CURRENT_VERSION=$(node -p "require('../package.json').version")
   echo "Current package version: $CURRENT_VERSION"
 
   # If version is passed as an argument - use it

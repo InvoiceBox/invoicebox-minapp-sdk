@@ -8,6 +8,10 @@ if [ "$CURRENT_BRANCH" != "develop" ]; then
   exit 1
 fi
 
+# Check package contents
+echo "Checking package contents..."
+cd .. && npm pack --dry-run
+
 echo "Pushing changes and tags to remote..."
 git push
 git push --tags
