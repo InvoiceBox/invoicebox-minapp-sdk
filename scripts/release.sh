@@ -28,7 +28,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Step 3/3: Releasing to git and npm"
-./release.sh
+./publish.sh
 if [ $? -ne 0 ]; then
   echo "Release failed."
   exit 1

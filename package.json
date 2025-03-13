@@ -2,9 +2,9 @@
   "name": "@invoicebox/minapp-sdk",
   "type": "module",
   "license": "Apache License 2.0",
-  "version": "4.0.0-alpha.23",
+  "version": "4.0.0-alpha.24",
   "scripts": {
-    "release": "scripts/release.sh"
+    "release": "cd scripts && bash ./release.sh"
   },
   "description": "Package to communicate with Invoicebox payment page",
   "repository": {
