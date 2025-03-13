@@ -1,9 +1,7 @@
 #!/bin/bash
 set -e  # Stop script on any error
 
-# Function to determine and suggest a new version
 bump_version() {
-  # Get current version from package.json
   CURRENT_VERSION=$(node -p "require('../package.json').version")
   echo "Current package version: $CURRENT_VERSION"
 
@@ -40,7 +38,6 @@ bump_version() {
     SUGGESTED_VERSION="$MAJOR.$MINOR.$NEW_PATCH"
   fi
 
-  # Offer user a choice
   echo "Suggested new version: $SUGGESTED_VERSION"
   read -p "Use this version? (y - yes, n - enter your own): " -n 1 -r
   echo
@@ -48,7 +45,7 @@ bump_version() {
   if [[ $REPLY =~ ^[Yy]$ ]]; then
     NEW_VERSION=$SUGGESTED_VERSION
   else
-    read -p "Enter desired version: " CUSTOM_VERSION
+    read -p "Enter target version: " CUSTOM_VERSION
     NEW_VERSION=$CUSTOM_VERSION
   fi
 
@@ -56,9 +53,7 @@ bump_version() {
   return 0
 }
 
-# Determine new version (from argument or user input)
 bump_version "$1"
 
-# Update version
 npm version $NEW_VERSION
 echo "Version updated to $NEW_VERSION"

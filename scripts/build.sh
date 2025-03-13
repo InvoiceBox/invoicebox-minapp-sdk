@@ -2,11 +2,8 @@
 set -e  # Stop script on any error
 
 echo "Cleaning..."
-# Remove all files from cjs directory except .gitignore and package.json
 find ../cjs -type f ! -name ".gitignore" ! -name "package.json" -delete
-# Remove all directories inside cjs
 find ../cjs -mindepth 1 -type d -exec rm -rf {} +
-# Remove esm directory completely
 rm -rf ../esm
 
 echo "Building..."
