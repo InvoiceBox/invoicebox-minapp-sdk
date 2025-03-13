@@ -20,6 +20,8 @@
   },
   "files": [
     "**/package.json",
+    "cjs/**/*.js",
+    "cjs/**/*.d.ts",
     "**/index.js",
     "**/index.min.js",
     "**/*.d.ts"
