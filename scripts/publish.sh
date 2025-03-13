@@ -28,7 +28,7 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
 fi
 
 echo "Publishing to npm..."
-npm publish
+npm publish --tag latest
 
 git checkout develop
 
