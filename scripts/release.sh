@@ -1,22 +1,24 @@
 #!/bin/bash
 set -e  # Stop script on any error
 
+echo "Step 1/5: Check current branch"
 CURRENT_BRANCH=$(git branch --show-current)
 if [ "$CURRENT_BRANCH" != "develop" ]; then
   echo "Error: You must be on the develop branch to release. Current branch: $CURRENT_BRANCH"
   exit 1
 fi
 
-echo "Starting release process..."
+echo "Step 2/5: Update main and merge into current branch"
+git fetch origin
+git checkout main
+git pull origin main
+git checkout develop
+git merge main
 
-echo "Step 1/3: Running build"
+echo "Step 3/5: Running build"
 ./build.sh
-if [ $? -ne 0 ]; then
-  echo "Build failed. Stopping release process."
-  exit 1
-fi
 
-echo "Step 2/3: Version management"
+echo "Step 4/5: Version management"
 read -p "Do you want to bump/change the version? (y - yes, n - skip/retry publish): " -n 1 -r
 echo
 
@@ -27,21 +29,12 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   fi
 
   ./bump-version.sh $VERSION_ARG
-
-  if [ $? -ne 0 ]; then
-    echo "Version bump failed. Stopping release process."
-    exit 1
-  fi
 else
   CURRENT_VERSION=$(node -p "require('../package.json').version")
   echo "Skipping version bump. Will publish current version: $CURRENT_VERSION"
 fi
 
-echo "Step 3/3: Releasing to git and npm"
+echo "Step 5/5: Releasing to git and npm"
 ./publish.sh
-if [ $? -ne 0 ]; then
-  echo "Release failed."
-  exit 1
-fi
 
 echo "Release completed successfully!"
