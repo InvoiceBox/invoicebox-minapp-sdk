@@ -42,7 +42,7 @@ export type TCheckoutMessageTo = {
     data: string;
 };
 
-export type TPaymentStatus = 'paid' | 'canceled' | 'pending';
+export type TPaymentStatus = 'pending' | 'completed' | 'canceled' | 'expired' | 'hold' | 'unknown';
 
 export type TAppSettings = {
     orderContainerId?: never;
