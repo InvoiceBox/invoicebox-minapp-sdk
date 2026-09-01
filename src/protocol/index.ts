@@ -35,7 +35,7 @@ export type TWebSettings = {
 };
 
 export type TPublicInitialData = {
-    shopId: number;
+    shopId?: number;
     userEmail: string;
     userName: string;
     userPhone: string;
