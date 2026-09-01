@@ -1,9 +1,5 @@
-#project
-esm
-
-#compiled
-cjs/*
-!cjs/package.json
+#build
+dist
 
 #node
 node_modules

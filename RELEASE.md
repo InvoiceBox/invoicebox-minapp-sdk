@@ -1,33 +1,16 @@
 # Релиз и публикация
 
-### Предварительные требования
+Публикация автоматизирована через GitHub Actions (`.github/workflows/publish.yml`).
 
-Установите зависимости:
-
-```bash
-npm ci
-```
-
-Убедитесь, что вы залогинены в `npm`, для этого выполните команду:
+1. Все изменения влиты в `develop`, CI зелёный.
+2. Поднять версию по SemVer и создать тег:
 
 ```bash
-npm whoami
+npm version X.Y.Z
+git push && git push --tags
 ```
 
-Если вы не залогинены, залогинтесь:
-
-```bash
-npm login
-```
-
-Чтобы опубликовать пакет, вы должны состоять в организации [invoicebox](https://www.npmjs.com/settings/invoicebox/packages), и у вас должны быть сообтветствующие права.
-
-Все изменения должны быть закомичены в `develop`.
-
-### Релиз и публикация
-
-Выполните команду, где `x.x.x` - это новая версия пакета, например `2.0.1`:
-
-```bash
-VERSION=x.x.x npm run release
-```
+3. Workflow `Publish` соберёт пакет (`prepublishOnly`: lint + typecheck + test + build)
+   и опубликует его в npm. Требуется секрет репозитория `NPM_TOKEN`
+   (automation-токен npm с правом публикации в scope `@invoicebox`).
+4. Влить `develop` в `main`.
