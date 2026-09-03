@@ -1,5 +1,6 @@
 import {
     PROTOCOL_VERSION,
+    TBasketItemInfo,
     TChildToParentMessage,
     TInitialData,
     TPaymentStatus,
@@ -172,6 +173,14 @@ export class InvoiceboxMinapp {
         return this.getAllInitialData().then(({ private: { metaData } }) =>
             this.matchSomeProperty(metaData, targetKey, targetValues),
         );
+    }
+
+    /**
+     * Позиции корзины родительского заказа (артикул + наименование) — для матчинга
+     * «услуга уже куплена на стороне мерчанта». Пустой массив, если хост их не передал.
+     */
+    getBasketItems(): Promise<TBasketItemInfo[]> {
+        return this.getAllInitialData().then(({ private: privateData }) => privateData.basketItems ?? []);
     }
 
     /** Все значения свойств с именами targetKey из metaData (поиск вглубь, уникальные). */

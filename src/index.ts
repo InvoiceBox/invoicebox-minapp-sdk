@@ -30,6 +30,7 @@ export const invoiceboxMinapp = {
     onLink: (href: string) => getLegacy().onLink(href),
     onError: (message?: string) => getLegacy().onError(message),
     onUnavailable: () => getLegacy().onUnavailable(),
+    getBasketItems: () => getLegacy().getBasketItems(),
     matchMetaDataValues: (targetKey: string, targetValues: unknown[]) =>
         getLegacy().matchMetaDataValues(targetKey, targetValues),
     getMetaDataValues: (targetKey: string | string[]) => getLegacy().getMetaDataValues(targetKey),

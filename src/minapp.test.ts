@@ -214,6 +214,32 @@ describe('исходящие события', () => {
     });
 });
 
+describe('данные родительского заказа', () => {
+    it('getBasketItems отдаёт позиции корзины; пусто, если хост не передал', async () => {
+        const instance = connect();
+        emulateParentMessage({
+            id: APP_ID,
+            action: 'init',
+            data: {
+                ...INITIAL_DATA,
+                private: {
+                    ...INITIAL_DATA.private,
+                    basketItems: [{ sku: 'AERO-1', name: 'Билет Аэроэкспресс' }],
+                },
+            },
+        });
+        await expect(instance.getBasketItems()).resolves.toEqual([
+            { sku: 'AERO-1', name: 'Билет Аэроэкспресс' },
+        ]);
+    });
+
+    it('getBasketItems без basketItems в данных — пустой массив', async () => {
+        const instance = connect();
+        emulateParentMessage({ id: APP_ID, action: 'init', data: INITIAL_DATA });
+        await expect(instance.getBasketItems()).resolves.toEqual([]);
+    });
+});
+
 describe('metaData-хелперы', () => {
     it('matchMetaDataValues ищет вглубь', async () => {
         const instance = connect();
