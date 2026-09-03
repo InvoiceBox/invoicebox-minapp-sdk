@@ -40,10 +40,23 @@ export type TPublicInitialData = {
     userName: string;
     userPhone: string;
     locale: string;
+    /**
+     * Срок оплаты родительского orderContainer (ISO 8601). Заказ доп. услуги не должен
+     * жить дольше родителя — мини-апп передаёт срок своему бэкенду при создании заказа.
+     */
+    expirationDate?: string;
 } & (TWebSettings | TAppSettings);
+
+/** Позиция корзины родительского заказа (для матчинга «услуга уже куплена»). */
+export type TBasketItemInfo = {
+    sku: string;
+    name: string;
+};
 
 export type TPrivateInitialData = {
     metaData: unknown[];
+    /** Позиции корзины родительского заказа: артикул + наименование. */
+    basketItems?: TBasketItemInfo[];
 };
 
 export type TInitialData = {

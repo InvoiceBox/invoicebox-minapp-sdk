@@ -2,7 +2,7 @@
     "name": "@invoicebox/minapp-sdk",
     "type": "module",
     "license": "Apache License 2.0",
-    "version": "5.0.0",
+    "version": "5.1.0",
     "description": "SDK for Invoicebox mini apps: communication with the payment page (iframe) and the mobile app (WebView)",
     "repository": {
         "type": "git",
