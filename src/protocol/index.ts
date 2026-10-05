@@ -34,6 +34,17 @@ export type TWebSettings = {
     fullHeight: false;
 };
 
+/**
+ * Мини-апп встроен в веб-страницу без счёта (iframe, например витрина): самостоятельный заказ,
+ * как в WebView, но высоту по контенту мини-апп сообщает хосту, а по `checkout` хост сам
+ * переходит на страницу оплаты.
+ */
+export type TWebOrderSettings = {
+    orderContainerId?: never;
+    minappType: 'order';
+    fullHeight: false;
+};
+
 export type TPublicInitialData = {
     shopId?: number;
     userEmail: string;
@@ -45,7 +56,7 @@ export type TPublicInitialData = {
      * жить дольше родителя — мини-апп передаёт срок своему бэкенду при создании заказа.
      */
     expirationDate?: string;
-} & (TWebSettings | TAppSettings);
+} & (TWebSettings | TWebOrderSettings | TAppSettings);
 
 /** Позиция корзины родительского заказа (для матчинга «услуга уже куплена»). */
 export type TBasketItemInfo = {
