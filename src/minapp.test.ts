@@ -82,6 +82,24 @@ describe('handshake', () => {
         await expect(promise).resolves.toEqual(INITIAL_DATA.public);
     });
 
+    it('getInitialData отдаёт самостоятельный заказ в iframe (order без fullHeight)', async () => {
+        const webOrder: TInitialData = {
+            public: {
+                userEmail: '',
+                userName: '',
+                userPhone: '',
+                locale: 'ru',
+                minappType: 'order',
+                fullHeight: false,
+            },
+            private: { metaData: [] },
+        };
+        const instance = connect();
+        const promise = instance.getInitialData();
+        emulateParentMessage({ id: APP_ID, action: 'init', data: webOrder });
+        await expect(promise).resolves.toEqual(webOrder.public);
+    });
+
     it('getInitialData реджектится по таймауту без ответа родителя', async () => {
         vi.useFakeTimers();
         const instance = connect({ initTimeoutMs: 1000 });
